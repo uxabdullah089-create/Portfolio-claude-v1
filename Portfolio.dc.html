@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<template id="__bundler_thumbnail"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200"><rect width="200" height="200" fill="#000"/><text x="30" y="115" font-family="sans-serif" font-size="70" fill="#fff">A</text></svg></template>
+<x-dc>
+<helmet>
+  <style>
+    @font-face {
+      font-family: "Hikasami";
+      src: local("Hikasami");
+      font-weight: 400 700;
+    }
+    html { background: rgb(0,0,0); }
+    body { margin: 0; background: rgb(0,0,0); min-width: 1024px; }
+    /* The track holds the icon set twice. A seamless loop must shift by
+       exactly one set INCLUDING its trailing gap (n*icon + n*gap).
+       translateX(-50%) shifts half the track instead - and the track is
+       n*icon + (n-1)*gap - so it lands half a gap short and the strip
+       visibly jumps each cycle. Each track sets --carousel-shift to its
+       own exact set width. */
+    @keyframes carousel-scroll { from { transform: translateX(0); } to { transform: translateX(calc(-1 * var(--carousel-shift, 50%))); } }
+    @keyframes carousel-scroll-rtl { from { transform: translateX(calc(-1 * var(--carousel-shift, 50%))); } to { transform: translateX(0); } }
+
+    /* ------------------------------------------------------------------
+       Responsive shell.
+
+       The design was authored on a fixed 1440px artboard. Instead of hard
+       pixels, every horizontal measurement below is expressed in cqw
+       (1cqw = 1% of .pf-page width), so the composition scales
+       proportionally with the viewport:
+
+           design_px  ->  (design_px / 14.4) cqw
+
+       .pf-page is the query container, clamped to 1024-1920px, so the
+       effective scale runs 0.71x (small laptop) to 1.33x (large display)
+       and stops growing past 1920 so type never becomes absurd on a
+       2560/3440 monitor.
+
+       .pf-root sits OUTSIDE the container so position:fixed children (the
+       custom cursor and the toast) still resolve against the viewport -
+       container-type implies layout containment, which would otherwise
+       trap them inside .pf-page.
+       ------------------------------------------------------------------ */
+    .pf-root {
+      position: relative;
+      width: 100%;
+    }
+
+    .pf-page {
+      width: 100%;
+      min-width: 1024px;
+      max-width: 1920px;
+      margin: 0 auto;
+      container-type: inline-size;
+      container-name: page;
+    }
+
+    .pf-stage {
+      position: relative;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      background: rgb(0,0,0);
+      font-family: Hikasami, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+
+      /* Small copy gets a legibility floor and a sane ceiling; display type
+         scales purely with the canvas. */
+      --fs-11:  clamp(11px, 0.7639cqw, 15px);
+      --fs-14:  clamp(13px, 0.9722cqw, 19px);
+      --fs-16:  clamp(14px, 1.1111cqw, 21px);
+      --fs-18:  clamp(16px, 1.2500cqw, 24px);
+      --fs-19:  clamp(17px, 1.3194cqw, 25px);
+      --fs-20:  clamp(17px, 1.3889cqw, 27px);
+      --fs-24:  clamp(20px, 1.6667cqw, 32px);
+      --fs-34:  2.3611cqw;
+      --fs-48:  3.3333cqw;
+      --fs-56:  3.8889cqw;
+      --fs-80:  5.5556cqw;
+      --fs-132: 9.1667cqw;
+      --fs-244: 16.9444cqw;
+
+      /* page gutter: 120px on the 1440 artboard */
+      --gutter: 8.3333cqw;
+    }
+  </style>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&amp;display=swap" rel="stylesheet">
+  <script src="./image-slot.js"></script>
+  <link rel="stylesheet" href="./DriftWall.css">
+  <style>
+    a { color: rgb(236,231,222); }
+    a:hover { color: rgb(255,255,255); }
+  </style>
+</helmet>
+<div class="pf-root">
+<div class="pf-page">
+<div class="pf-stage">
+
+  <div style="position:relative; height:55.5556cqw; overflow:hidden; background:rgb(0,0,0); flex-shrink:0; align-self:stretch;" id="profile">
+    <span style="position: absolute; left: 47.7778cqw; top: 5.5556cqw; width: 39.0278cqw; height: 12.2222cqw; font-weight: 500; font-size: var(--fs-132); white-space: nowrap; line-height: 100%; letter-spacing: -0.020em; color: #FFFFFF">Abdullah</span>
+    <div style="position: absolute; left: 47.7778cqw; top: 38.1944cqw; width: 44.4444cqw; overflow: hidden; -webkit-mask-image: linear-gradient(to right, transparent, black 8%, black 92%, transparent); mask-image: linear-gradient(to right, transparent, black 8%, black 92%, transparent)">
+      <div style="display:flex; flex-direction:column; gap:1.1111cqw;">
+        <span style="font-family:'DM Mono', monospace; font-weight:500; font-size:var(--fs-11); letter-spacing:0.15em; text-transform:uppercase; color:rgba(236,231,222,0.4); padding-left:0.2778cqw;">Among my clients</span>
+        <div style="display:flex; flex-direction:row; gap:4.1667cqw; align-items:center; width:max-content; --carousel-shift:50cqw; animation:carousel-scroll-rtl 14s linear infinite; animation-play-state:{{ carouselPlayState }};">
+          <sc-for list="{{ realIconsLoop }}" as="ic" hint-placeholder-count="8">
+            <div style="width:8.3333cqw; height:8.3333cqw; flex-shrink:0; -webkit-mask-image:url({{ ic.src }}); -webkit-mask-size:contain; -webkit-mask-repeat:no-repeat; -webkit-mask-position:center; mask-image:url({{ ic.src }}); mask-size:contain; mask-repeat:no-repeat; mask-position:center; background:rgba(236,231,222,0.55); transition:background 0.25s ease;" style-hover="background:rgb(255,255,255);" onMouseEnter="{{ iconHoverOn }}" onMouseLeave="{{ iconHoverOff }}"></div>
+          </sc-for>
+        </div>
+      </div>
+    </div>
+    <span style="position: absolute; left: 47.7778cqw; top: 18.4028cqw; width: 21.0417cqw; height: 1.875cqw; font-weight: 400; font-size: var(--fs-20); white-space: nowrap; line-height: 100%; color: #D4D4D4">"If its confusing, I didn't Design it."</span>
+    <div style="position:absolute; left:var(--gutter); top:5.5556cqw; width:33.8889cqw; height:44.4444cqw; border-radius:4px; background:url(assets/hero-portrait.jpg) center / cover no-repeat;"></div>
+  </div>
+
+  <div style="position:relative; height:calc(100vh + 1500px); background:rgb(0,0,0); flex-shrink:0; align-self:stretch;" ref="{{ wrapperRef }}" id="experience">
+    <div style="position:sticky; top:0px; height:100vh; overflow:hidden; display:flex; align-items:center; justify-content:center; padding:0 var(--gutter); box-sizing:border-box;">
+      <div style="width:69.0972cqw; max-width:100%; text-align:center; font-weight:400; font-size:var(--fs-48); line-height:130%; letter-spacing:-0.020em;">
+        <sc-for list="{{ words }}" as="w" hint-placeholder-count="24">
+          <sc-if value="{{ w.breakBefore }}" hint-placeholder-val="{{ false }}"><br></sc-if><span ref="{{ w.ref }}" style="display:inline; opacity:0.25; color:rgb(236,231,222); transition:opacity 0.2s linear;">{{ w.text }}</span>
+        </sc-for>
+      </div>
+    </div>
+  </div>
+
+  <div style="position:relative; height:calc(200vh); background:rgb(0,0,0); flex-shrink:0; align-self:stretch;" id="work">
+   <div style="position:sticky; top:0px; height:100vh; overflow:hidden;">
+    <div style="position:absolute; left:var(--gutter); right:var(--gutter); top:50%; transform:translateY(-50%); display:flex; flex-direction:column; align-items:center; gap:3.3333cqw;">
+      <span style="font-weight: 500; font-size: var(--fs-56); line-height: 100%; letter-spacing: -0.02em; color: #FFFFFF72; text-align: center; opacity: 1">Where I left my <i style="color: rgb(255,255,255); font-weight: 400; opacity: 1">mark</i></span>
+      <div style="display:flex; flex-direction:row; gap:2.2222cqw; align-self:stretch;">
+        <div style="position:relative; width:16px; flex-shrink:0; height:{{ pathTotalHeight }}px;">
+          <div style="position:absolute; left:7px; top:0px; width:1px; height:100%; background:rgba(255,255,255,0.22);"></div>
+          <div style="position:absolute; left:3px; top:{{ dot1Top }}px; width:9px; height:9px; border-radius:50%; background:rgb(236,231,222); box-shadow:0px 0px 0px 3px rgb(0,0,0);"></div>
+          <div style="position:absolute; left:3px; top:{{ dot2Top }}px; width:9px; height:9px; border-radius:50%; background:rgb(236,231,222); box-shadow:0px 0px 0px 3px rgb(0,0,0);"></div>
+        </div>
+        <div style="display:flex; flex-direction:column; align-items:flex-start; flex:1; min-width:0;">
+
+      <div style="position:relative; overflow:hidden; box-sizing:border-box; flex-shrink:0; align-self:stretch; height:{{ row1.height }}px; transition:height 0.5s ease; cursor:none;" onMouseEnter="{{ hoverRow1On }}" onMouseLeave="{{ hoverRowOff }}" onClick="{{ toggleRow1 }}">
+        <div style="position: absolute; left: 0px; right: 0px; top: 0px; height: {{ row1.height }}px; display: flex; flex-direction: column; justify-content: {{ row1.justify }}; align-items: flex-start; gap: 4px; padding: {{ row1.padTop }}px 1.6667cqw 1.6667cqw 0px; box-sizing: border-box; transition: height 0.5s ease, padding-top 0.4s ease; padding-top: 24px">
+          <span style="font-weight:400; font-size:var(--fs-48); text-align:center; white-space:nowrap; line-height:100%; color:rgb(236,231,222);">Devsinc</span>
+          <span style="font-weight:500; font-size:var(--fs-20); text-align:center; white-space:nowrap; line-height:100%; color:rgb(236,231,222);">2026 - Current</span>
+          <span style="width:31.25cqw; font-weight:400; font-size:var(--fs-14); padding-top:1.3889cqw; line-height:150%; color:rgb(236,231,222); opacity:{{ row1.descOpacity }}; max-height:{{ row1.descMaxH }}px; overflow:hidden; box-sizing:border-box; transition:opacity 0.4s ease; display:flex; flex-direction:column; gap:6px;"><span style="font-weight:500; color:rgb(255,255,255);">At Devsinc, I fixed an outdated website that was telling all the wrong stories.</span><span>Redesigned their site and shipped major projects like IGI Insurance and CBD Punjab Portal.</span><i>User engagement jumped 28%, onboarding completion improved by 18%, and brand perception shifted from "who?" to "they actually get it."</i></span>
+        </div>
+        <div style="position:absolute; right:1.6667cqw; top:{{ row1.imgTop }}px; width:{{ row1.tileW }}px; height:{{ row1.imgHeight }}px; transition:width 0.5s ease, height 0.5s ease, top 0.5s ease;">
+          <x-import component-from-global-scope="DriftWall" from="./DriftWall.jsx" columns="{{ 1 }}" tile-width="{{ row1.tileW }}" tile-height="{{ row1.tileH }}" gap="{{ 10 }}" radius="{{ 6 }}" speed="{{ 36 }}" dim="{{ 0.8 }}" fade="{{ 0.15 }}" overlay-color="transparent" expanded="{{ row1.expanded }}" on-quiet-enter="{{ quietOn }}" on-quiet-leave="{{ quietOff }}" dc-props="{{ devsincDriftProps }}" hint-size="245px,111px"></x-import>
+        </div>
+      </div>
+
+      <div style="position: relative; overflow: hidden; box-sizing: border-box; flex-shrink: 0; align-self: stretch; height: {{ row2.height }}px; transition: height 0.5s ease; cursor: none; top: {{ rowGap }}px" onMouseEnter="{{ hoverRow2On }}" onMouseLeave="{{ hoverRowOff }}" onClick="{{ toggleRow2 }}">
+        <div style="position: absolute; left: 0px; right: 0px; top: 0px; height: {{ row2.height }}px; display: flex; flex-direction: column; justify-content: {{ row2.justify }}; align-items: flex-start; padding: {{ row2.padTop }}px 1.6667cqw 1.6667cqw 0px; box-sizing: border-box; transition: height 0.5s ease, padding-top 0.4s ease; padding-top: 0px">
+          <span style="font-weight:400; font-size:var(--fs-48); text-align:center; white-space:nowrap; line-height:100%; color:rgb(236,231,222); margin-top:1.9444cqw;">RepairDesk</span>
+          <span style="font-weight: 400; font-size: var(--fs-20); text-align: center; white-space: nowrap; line-height: 100%; color: rgb(236,231,222); padding-top: 0.8333cqw">2024 - 2026</span>
+          <span style="width: 32.6389cqw; font-weight: 400; font-size: var(--fs-14); padding-top: 4.1667cqw; line-height: 150%; color: rgb(236,231,222); opacity: {{ row2.descOpacity }}; max-height: {{ row2.descMaxH }}px; overflow: hidden; box-sizing: border-box; transition: opacity 0.4s ease; display: flex; flex-direction: column; gap: 6px"><span style="font-weight:500; color:rgb(255,255,255);">At RepairDesk, I managed and documented their design system through a massive modular revamp.</span><span>I built a tracking solution that showed exactly what was done (65%), in progress (20%), and left to go (15%).</span><i>A chaotic redesign became a coordinated ship.</i></span>
+        </div>
+        <div style="position:absolute; right:1.6667cqw; top:{{ row2.imgTop }}px; width:{{ row2.tileW }}px; height:{{ row2.imgHeight }}px; transition:width 0.5s ease, height 0.5s ease, top 0.5s ease;">
+          <x-import component-from-global-scope="DriftWall" from="./DriftWall.jsx" columns="{{ 1 }}" tile-width="{{ row2.tileW }}" tile-height="{{ row2.tileH }}" gap="{{ 10 }}" radius="{{ 6 }}" speed="{{ 36 }}" dim="{{ 0.8 }}" fade="{{ 0.15 }}" overlay-color="transparent" expanded="{{ row2.expanded }}" on-quiet-enter="{{ quietOn }}" on-quiet-leave="{{ quietOff }}" dc-props="{{ repairdeskDriftProps }}" hint-size="245px,111px"></x-import>
+        </div>
+      </div>
+
+
+        </div>
+      </div>
+    </div>
+   </div>
+  </div>
+
+  <div style="position:relative; height:calc(100vh + 1200px); background:rgb(0,0,0); flex-shrink:0; align-self:stretch;" ref="{{ caseWrapperRef }}" id="case-studies">
+    <div style="position:sticky; top:0px; height:100vh; overflow:hidden; display:flex; align-items:center;">
+      <div style="position:absolute; left:36.5972cqw; top:50%; transform:translateY(-50%); width:min(55.0694cqw, 116.94vh); height:min(30.1389cqw, 64vh);">
+        <sc-for list="{{ studies }}" as="s" hint-placeholder-count="3">
+          <a href="{{ s.href }}" tabindex="{{ s.tabIndex }}" style="position:absolute; inset:0px; opacity:{{ s.thumbOpacity }}; filter:{{ s.thumbFilter }}; transition:opacity 0.6s ease, filter 0.6s ease; display:block; cursor:{{ s.cursor }}; pointer-events:{{ s.pointerEvents }};">
+            <image-slot id="{{ s.imgId }}" shape="rect" placeholder="{{ s.placeholder }}" src="{{ s.thumb }}"></image-slot>
+          </a>
+        </sc-for>
+      </div>
+      <div style="position:absolute; left:var(--gutter); top:50%; transform:translateY(-50%); width:21.3194cqw; height:19.7917cqw;">
+        <sc-for list="{{ studies }}" as="s" hint-placeholder-count="3">
+          <a href="{{ s.href }}" tabindex="{{ s.tabIndex }}" style="position:absolute; left:0px; top:0px; width:100%; height:100%; display:flex; flex-direction:column; justify-content:space-between; align-items:flex-start; opacity:{{ s.opacity }}; filter:{{ s.blur }}; transition:opacity 0.6s ease, filter 0.6s ease; cursor:{{ s.cursor }}; pointer-events:{{ s.pointerEvents }}; text-decoration:none;">
+            <div style="position:relative; top:-4.8611cqw; display:flex; flex-direction:column; align-items:flex-start; gap:0.5556cqw;">
+              <sc-if value="{{ s.locked }}" hint-placeholder-val="{{ false }}"><span style="font-family:'DM Mono', monospace; font-weight:500; font-size:var(--fs-11); letter-spacing:0.12em; text-transform:uppercase; line-height:100%; color:rgb(255,255,255); opacity:0.45;">Coming Soon</span></sc-if>
+              <span style="font-weight: 500; font-size: var(--fs-34); white-space: nowrap; line-height: 100%; letter-spacing: -0.020em; color: rgb(255,255,255);">{{ s.title }}</span>
+            </div>
+            <span style="opacity:0.8; align-self:stretch; font-weight:500; font-size:var(--fs-18); line-height:130%; letter-spacing:-0.020em; color:rgb(255,255,255);">{{ s.desc }}</span>
+          </a>
+        </sc-for>
+      </div>
+      <div style="position:absolute; right:3.6111cqw; top:50%; transform:translateY(-50%); display:flex; flex-direction:column; gap:0.8333cqw; align-items:center;">
+        <sc-for list="{{ studies }}" as="s" hint-placeholder-count="3">
+
+        </sc-for>
+      </div>
+      <div style="position:absolute; inset:0px; background:rgba(0,0,0,0.45); opacity:{{ lockOverlayOpacity }}; transition:opacity 0.6s ease; pointer-events:none; display:flex; align-items:center; justify-content:center; z-index:5;">
+        <svg viewBox="0 0 48 56" fill="none" stroke="rgb(236,231,222)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="width:clamp(48px, 4.4444cqw, 88px); height:auto; opacity:0.7;">
+          <rect x="4.25" y="22" width="39.5" height="30" rx="7"></rect>
+          <path d="M13 22 V15.5 A11 11 0 0 1 35 15.5 V22"></path>
+        </svg>
+      </div>
+    </div>
+  </div>
+
+  <div style="position:relative; height:calc(300vh); background:rgb(0,0,0); flex-shrink:0; align-self:stretch;" ref="{{ testiWrapperRef }}">
+    <div style="position:sticky; top:0px; height:100vh; overflow:hidden; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:3.3333cqw;">
+      <span style="font-family:'DM Mono', monospace; font-weight:500; font-size:var(--fs-14); letter-spacing:0.15em; text-transform:uppercase; color:rgba(236,231,222,0.5);">Words from others</span>
+      <div style="position:relative; --card-h:min(38.8889cqw, 70vh); width:calc(var(--card-h) * 0.75); height:var(--card-h);">
+        <sc-for list="{{ testimonials }}" as="t" hint-placeholder-count="3">
+          <div style="position:absolute; width:100%; height:100%; left:0px; top:0px; transform:{{ t.cardTransform }}; opacity:{{ t.cardOpacity }}; z-index:{{ t.zIndex }}; transition:transform 0.1s linear, opacity 0.1s linear;">
+            <div style="width:100%; height:100%; box-sizing:border-box; padding:calc(var(--card-h) * 0.0714); border-radius:calc(var(--card-h) * 0.0357); background:rgb(20,20,20); border:1px solid rgba(255,255,255,0.14); box-shadow:0px 30px 60px rgba(0,0,0,0.5); display:flex; flex-direction:column; gap:calc(var(--card-h) * 0.045); justify-content:space-between; text-align:{{ t.align }};">
+              <span style="font-family:Hikasami, serif; font-weight:500; font-size:calc(var(--card-h) * 0.1286); line-height:1; color:rgba(255,255,255,0.15); align-self:{{ t.quoteMarkAlign }};">&ldquo;</span>
+              <span style="font-weight:400; font-size:clamp(13px, calc(var(--card-h) * 0.0375), 26px); line-height:145%; letter-spacing:-0.01em; color:rgb(236,231,222); margin-top:calc(var(--card-h) * -0.0714);">{{ t.quote }}</span>
+              <div style="display:flex; flex-direction:{{ t.rowDir }}; gap:calc(var(--card-h) * 0.025); align-items:center;">
+                <div style="width:calc(var(--card-h) * 0.0857); height:calc(var(--card-h) * 0.0857); min-width:28px; min-height:28px; border-radius:50%; flex-shrink:0; background-color:rgba(255,255,255,0.08); background-image:{{ t.avatarBg }}; background-size:cover; background-position:center; display:flex; align-items:center; justify-content:center; font-size:clamp(11px, calc(var(--card-h) * 0.0286), 20px); font-weight:500; color:rgb(236,231,222);">{{ t.initials }}</div>
+                <div style="display:flex; flex-direction:column; gap:2px; align-items:{{ t.nameAlign }};">
+                  <span style="font-weight:500; font-size:clamp(13px, calc(var(--card-h) * 0.0339), 24px); color:rgb(255,255,255);">{{ t.name }}</span>
+                  <span style="font-size:clamp(11px, calc(var(--card-h) * 0.025), 18px); opacity:0.55;">{{ t.role }}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+  </div>
+
+  <div style="position:relative; height:19.4444cqw; min-height:220px; overflow:hidden; background:rgb(0,0,0); flex-shrink:0; align-self:stretch; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:2.2222cqw;">
+    <span style="font-family:'DM Mono', monospace; font-weight:500; font-size:var(--fs-14); letter-spacing:0.15em; text-transform:uppercase; color:rgba(236,231,222,0.5);">Among my clients</span>
+    <div style="position:relative; width:50cqw; overflow:hidden; -webkit-mask-image:linear-gradient(to right, transparent, black 8%, black 92%, transparent); mask-image:linear-gradient(to right, transparent, black 8%, black 92%, transparent);">
+      <div style="display:flex; flex-direction:row; gap:5.5556cqw; align-items:center; width:max-content; --carousel-shift:55.5556cqw; animation:carousel-scroll-rtl 14s linear infinite; animation-play-state:{{ carouselPlayState }};">
+        <sc-for list="{{ realIconsLoop }}" as="ic" hint-placeholder-count="8">
+          <div style="width:8.3333cqw; height:8.3333cqw; flex-shrink:0; -webkit-mask-image:url({{ ic.src }}); -webkit-mask-size:contain; -webkit-mask-repeat:no-repeat; -webkit-mask-position:center; mask-image:url({{ ic.src }}); mask-size:contain; mask-repeat:no-repeat; mask-position:center; background:rgba(236,231,222,0.55); transition:background 0.25s ease;" style-hover="background:rgb(255,255,255);" onMouseEnter="{{ iconHoverOn }}" onMouseLeave="{{ iconHoverOff }}"></div>
+        </sc-for>
+      </div>
+    </div>
+  </div>
+
+  <div style="position:relative; height:52.7778cqw; min-height:600px; overflow:hidden; background:rgb(0,0,0); flex-shrink:0; align-self:stretch; border-top:1px solid rgba(255,255,255,0.15);">
+    <div style="position:absolute; left:var(--gutter); right:var(--gutter); top:16.0417cqw; display:flex; flex-direction:row; justify-content:space-between; align-items:flex-start; gap:2.7778cqw;">
+      <div style="position:relative; display:flex; flex-direction:column; gap:5.5556cqw; align-items:flex-start; flex:0 0 auto;">
+        <span style="font-weight: 500; font-size: var(--fs-20); white-space: nowrap; line-height: 100%; letter-spacing: -0.020em; color: rgb(255,255,255); text-transform: capitalize">Jump to</span>
+        <div style="display:flex; flex-direction:column; gap:0.5556cqw; align-items:flex-start;">
+          <a href="#work" style="font-weight:500; font-size:var(--fs-18); line-height:100%; text-transform:capitalize; opacity:0.8;">Work</a>
+          <a href="#case-studies" style="font-weight:500; font-size:var(--fs-18); line-height:100%; text-transform:capitalize; opacity:0.8;">Case Studies</a>
+          <a href="#experience" style="font-weight:500; font-size:var(--fs-18); line-height:100%; text-transform:capitalize; opacity:0.8;">Experience</a>
+          <a href="#profile" style="font-weight:500; font-size:var(--fs-18); line-height:100%; text-transform:capitalize; opacity:0.8;">Profile</a>
+        </div>
+      </div>
+      <div style="position:relative; display:flex; flex-direction:column; gap:5.5556cqw; align-items:flex-start; flex:0 0 auto;">
+        <span style="font-weight: 500; font-size: var(--fs-20); white-space: nowrap; line-height: 100%; letter-spacing: -0.020em; color: rgb(255,255,255); text-transform: capitalize">Phone</span>
+        <span style="opacity: 0.8; font-weight: 500; font-size: var(--fs-18); line-height: 150%; color: rgb(255,255,255); text-transform: uppercase; white-space: pre-line">+92 3138626577
++92 3304868262</span>
+      </div>
+      <div style="position:relative; display:flex; flex-direction:column; gap:5.5556cqw; align-items:flex-start; flex:0 0 auto;">
+        <span style="font-weight: 500; font-size: var(--fs-20); white-space: nowrap; line-height: 100%; letter-spacing: -0.020em; color: rgb(255,255,255); text-transform: capitalize">EMAIL</span>
+        <div style="display:flex; flex-direction:row; gap:0.5556cqw; align-items:center; cursor:pointer;" onClick="{{ copyEmail }}">
+          <span style="opacity:0.8; font-weight:500; font-size:var(--fs-18); white-space:nowrap; line-height:100%; color:rgb(255,255,255); text-transform:capitalize;">Uxabdullah089@gmail.com</span>
+          <img src="assets/copy-icon.svg" alt="Copy" style="width:1.6667cqw; height:1.6667cqw; min-width:20px; min-height:20px;">
+        </div>
+      </div>
+    </div>
+    <span style="position: absolute; left: var(--gutter); top: calc(100% - 18.0556cqw); font-weight: 500; font-size: var(--fs-244); white-space: nowrap; line-height: 100%; letter-spacing: -0.020em; color: rgb(255,255,255); opacity: 0.2; text-transform: uppercase">Abdullah</span>
+  </div>
+
+</div>
+</div>
+
+  <div style="position:fixed; left:50%; bottom:32px; transform:translate(-50%, {{ toastOffset }}); opacity:{{ toastOpacity }}; transition:opacity 0.3s ease, transform 0.3s ease; z-index:50; pointer-events:none;">
+    <img src="assets/copied-toast.svg" alt="Email copied!" style="width:170px; height:38px;">
+  </div>
+
+  <div style="position: fixed; left: {{ cursorX }}px; top: {{ cursorY }}px; transform: translate(-50%, -50%); opacity: {{ cursorOpacity }}; transition: opacity 0.2s ease; z-index: 60; pointer-events: none; background: rgba(72,72,72,0.5); border: 1px solid rgba(255,255,255,0.2); border-radius: 8px; padding: 6px 14px; font-weight: 500; font-size: 14px; color: rgb(255,255,255); white-space: nowrap; width: 60px; height: 24px">Click!</div>
+
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.wordRefs = [];
+    this.wrapperEl = null;
+    this.caseWrapperEl = null;
+    this.caseData = [
+      { title: 'Auto-Motive Repair', desc: 'ARX is POS based software used in Repair Industry covering Tech, Mobile phones,', imgId: 'case-1', placeholder: 'Drop Auto-Motive Repair screenshot', thumb: 'assets/cs-arx-thumbnail.svg', href: 'Case Study - Auto-Motive Repair.dc.html', locked: false },
+    ];
+    const line1 = "I started designing interfaces in 2024, but I'd been solving problems long before that.";
+    const line2 = "Every project starts messy, my job is to make it make sense, then get out of the way.";
+    const words = [];
+    let idx = 0;
+    line1.split(' ').forEach((t) => { words.push(this.makeWord(t, idx)); idx++; });
+    line2.split(' ').forEach((t, i) => {
+      const w = this.makeWord(t, idx); idx++;
+      if (i === 0) w.breakBefore = true;
+      words.push(w);
+    });
+    this.state = {
+      words, activeCase: 0, testiProgress: 0.001, cursorX: 0, cursorY: 0,
+      hoveredRow: null, expandedRow: null, toastVisible: false,
+      vw: typeof window !== 'undefined' ? window.innerWidth : 1440,
+      vh: typeof window !== 'undefined' ? window.innerHeight : 900,
+    };
+    this.testimonialData = [
+      { name: 'Syed Saqib', role: 'Design team lead, Devsinc', quote: "Abdullah worked with re-designing our website and shipping projects like CBD Punjab and Pakistan Business Council. He asks the right questions before executing, and helped in turning our design process into something the whole team actually trusts. That's rare", avatar: 'assets/testimonial-avatar-1.jpg' },
+      { name: 'Ayesha Khan', role: 'QA Engineer, Devsinc', quote: 'He shipped clarity into a process that used to live in three different spreadsheets. Our team could finally see what was done and what was left.', avatar: null },
+      { name: 'Bilal Akbar', role: 'Sr. UI UX Designer', quote: "Every handoff from Abdullah came with the edge cases already thought through. That saves a team more time than any single screen.", avatar: 'assets/testimonial-avatar-3.jpg' },
+    ];
+    const demoIcons = [
+      { src: 'https://cdn.jsdelivr.net/npm/simple-icons@v11/icons/figma.svg', color: '#F24E1E' },
+      { src: 'https://cdn.jsdelivr.net/npm/simple-icons@v11/icons/framer.svg', color: '#0055FF' },
+      { src: 'https://cdn.jsdelivr.net/npm/simple-icons@v11/icons/adobephotoshop.svg', color: '#31A8FF' },
+      { src: 'https://cdn.jsdelivr.net/npm/simple-icons@v11/icons/adobeillustrator.svg', color: '#FF9A00' },
+      { src: 'https://cdn.jsdelivr.net/npm/simple-icons@v11/icons/sketch.svg', color: '#F7B500' },
+      { src: 'https://cdn.jsdelivr.net/npm/simple-icons@v11/icons/notion.svg', color: '#ffffff' },
+      { src: 'https://cdn.jsdelivr.net/npm/simple-icons@v11/icons/slack.svg', color: '#4A154B' },
+      { src: 'https://cdn.jsdelivr.net/npm/simple-icons@v11/icons/github.svg', color: '#ffffff' },
+    ];
+    this.carouselIcons = [...demoIcons, ...demoIcons];
+    this.realIcons = [
+      { src: 'assets/icon-devsinc.png', hoverSrc: 'assets/icon-devsinc-color.png', alt: 'Devsinc' },
+      { src: 'assets/icon-igi.svg', hoverSrc: 'assets/icon-igi-color.png', alt: 'IGI' },
+      { src: 'assets/icon-cbd.svg', hoverSrc: 'assets/icon-cbd-color.png', alt: 'CBD Punjab' },
+      { src: 'assets/icon-pcb.svg', hoverSrc: 'assets/icon-pcb-color.png', alt: 'PCB' },
+    ];
+    this.realIconsLoop = [...this.realIcons, ...this.realIcons].map((ic, i) => ({ ...ic, key: i }));
+    this.realIconsLoop = [...this.realIcons, ...this.realIcons];
+    this.devsincDriftProps = {
+      items: [
+        { image: 'assets/devsinc-1.png' },
+        { image: 'assets/devsinc-2.jpg' },
+        { image: 'assets/devsinc-3.jpg' },
+        { image: 'assets/devsinc-4.jpg' },
+        { image: 'assets/devsinc-5.png' },
+      ],
+    };
+    this.repairdeskDriftProps = {
+      items: [
+        { image: 'assets/repairdesk-1.jpeg' },
+        { image: 'assets/repairdesk-2.jpeg' },
+        { image: 'assets/repairdesk-3.jpeg' },
+        { image: 'assets/repairdesk-4.jpeg' },
+      ],
+    };
+  }
+
+  hoverRow1On = () => this.setState({ hoveredRow: 1 });
+  hoverRow2On = () => this.setState({ hoveredRow: 2 });
+  hoverRow3On = () => this.setState({ hoveredRow: 3 });
+  hoverRowOff = () => this.setState({ hoveredRow: null });
+  quietOn = () => this.setState({ quietCursor: true });
+  quietOff = () => this.setState({ quietCursor: false });
+  toggleRow1 = () => this.setState(s => ({ expandedRow: s.expandedRow === 1 ? null : 1 }));
+  toggleRow2 = () => this.setState(s => ({ expandedRow: s.expandedRow === 2 ? null : 2 }));
+  toggleRow3 = () => this.setState(s => ({ expandedRow: s.expandedRow === 3 ? null : 3 }));
+  onCursorMove = (e) => this.setState({ cursorX: e.clientX, cursorY: e.clientY });
+  iconHoverOn = () => this.setState({ carouselPaused: true });
+  iconHoverOff = () => this.setState({ carouselPaused: false });
+
+  /*
+   * The experience rows are the one block whose geometry lives in JS (row
+   * heights feed the timeline dots and the DriftWall tile size), so they
+   * can't ride the CSS cqw scale. This mirrors it:
+   *
+   *   - the width term matches .pf-page (clamped 1024-1920 against 1440)
+   *   - the height term is a guard for unusually short viewports (a
+   *     1920x720 ultrawide, say). expandedRow holds a single index, so
+   *     the tallest the stack ever gets is one expanded row plus one
+   *     collapsed one: 380 + 48 + 140 = 568 design px, plus the heading
+   *     block. 640 is that budget with breathing room.
+   *
+   * The smaller of the two wins. On every ordinary desktop the width
+   * term governs, so the section stays true to the 1440 artboard.
+   */
+  getScale() {
+    const s = this.state || {};
+    const vw = s.vw || 1440;
+    const vh = s.vh || 900;
+    const wScale = Math.max(1024, Math.min(1920, vw)) / 1440;
+    const hScale = (vh - 140) / 640;
+    return Math.max(0.7, Math.min(1.35, Math.min(wScale, hScale)));
+  }
+
+  getRowStyle(n) {
+    const expanded = this.state.expandedRow === n;
+    const s = this.getScale();
+    const r = (v) => Math.round(v * s);
+    return expanded
+      ? { height: r(380), justify: 'flex-start', padTop: r(24), imgTop: r(4), imgWidth: r(740), imgHeight: r(330), imgCols: 2, tileW: r(340), tileH: r(150), expanded: true, descOpacity: 0.7, descMaxH: r(200) }
+      : { height: r(140), justify: 'center', padTop: 0, imgTop: r(15), imgWidth: r(245), imgHeight: r(111), imgCols: 1, tileW: r(200), tileH: r(65), expanded: false, descOpacity: 0, descMaxH: 0 };
+  }
+
+  copyEmail = () => {
+    navigator.clipboard.writeText('Uxabdullah089@gmail.com').catch(() => {});
+    this.setState({ toastVisible: true });
+    clearTimeout(this.toastTimer);
+    this.toastTimer = setTimeout(() => this.setState({ toastVisible: false }), 2000);
+  }
+
+  makeWord(text, i) {
+    return { text: text + ' ', breakBefore: false, ref: (el) => { this.wordRefs[i] = el; } };
+  }
+
+  componentDidMount() {
+    this.scrollCurrent = window.scrollY;
+    this.scrollTarget = window.scrollY;
+    this.onWheel = (e) => {
+      e.preventDefault();
+      const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
+      this.scrollTarget = Math.max(0, Math.min(maxScroll, this.scrollTarget + e.deltaY));
+    };
+    this.onResize = () => {
+      if (window.innerWidth !== this.state.vw || window.innerHeight !== this.state.vh) {
+        this.setState({ vw: window.innerWidth, vh: window.innerHeight });
+      }
+    };
+    window.addEventListener('wheel', this.onWheel, { passive: false });
+    window.addEventListener('mousemove', this.onCursorMove);
+    window.addEventListener('resize', this.onResize);
+    this.onResize();
+
+    const loop = () => {
+      this.scrollCurrent += (this.scrollTarget - this.scrollCurrent) * 0.045;
+      if (Math.abs(this.scrollTarget - this.scrollCurrent) < 0.05) this.scrollCurrent = this.scrollTarget;
+      window.scrollTo(0, this.scrollCurrent);
+      this.updateProgress();
+      this.updateCaseProgress();
+      this.updateTestiProgress();
+      this.rafId = requestAnimationFrame(loop);
+    };
+    this.rafId = requestAnimationFrame(loop);
+  }
+
+  componentWillUnmount() {
+    if (this.rafId) cancelAnimationFrame(this.rafId);
+    window.removeEventListener('wheel', this.onWheel);
+    window.removeEventListener('mousemove', this.onCursorMove);
+    window.removeEventListener('resize', this.onResize);
+  }
+
+  updateProgress() {
+    if (!this.wrapperEl) return;
+    const rect = this.wrapperEl.getBoundingClientRect();
+    const total = rect.height - window.innerHeight;
+    if (total <= 0) return;
+    let progress = (-rect.top) / total;
+    progress = Math.max(0, Math.min(1, progress));
+    const n = this.wordRefs.length;
+    const band = 0.12;
+    this.wordRefs.forEach((el, i) => {
+      if (!el) return;
+      const start = (i / n) * (1 - band);
+      const t = (progress - start) / band;
+      const clamped = Math.max(0, Math.min(1, t));
+      el.style.opacity = 0.25 + clamped * 0.75;
+    });
+  }
+
+  updateTestiProgress() {
+    if (!this.testiWrapperEl) return;
+    const rect = this.testiWrapperEl.getBoundingClientRect();
+    const total = rect.height - window.innerHeight;
+    if (total <= 0) return;
+    let progress = (-rect.top) / total;
+    progress = Math.max(0.001, Math.min(1, progress));
+    if (Math.abs(progress - this.state.testiProgress) > 0.002) this.setState({ testiProgress: progress });
+  }
+
+  updateCaseProgress() {
+    if (!this.caseWrapperEl) return;
+    const rect = this.caseWrapperEl.getBoundingClientRect();
+    const total = rect.height - window.innerHeight;
+    if (total <= 0) return;
+    let progress = (-rect.top) / total;
+    progress = Math.max(0, Math.min(1, progress));
+    const n = this.caseData.length;
+    const idx = Math.min(n - 1, Math.floor(progress * n));
+    if (idx !== this.state.activeCase) this.setState({ activeCase: idx });
+  }
+
+  renderVals() {
+    // A locked study still takes its turn in the scroll sequence, but reads as
+    // unavailable: greyed, dimmed, inert, and it draws a scrim over the whole
+    // section. Only the thumbnail is dimmed - the title/desc stay legible.
+    const studies = this.caseData.map((c, i) => {
+      const isActive = i === this.state.activeCase;
+      const locked = !!c.locked;
+      return {
+        ...c,
+        locked,
+        opacity: isActive ? 1 : 0,
+        blur: isActive ? 'blur(0px)' : 'blur(16px)',
+        thumbOpacity: isActive ? (locked ? 0.55 : 1) : 0,
+        thumbFilter: (isActive ? 'blur(0px)' : 'blur(16px)') + (locked ? ' grayscale(1)' : ''),
+        href: locked ? '' : c.href,
+        cursor: locked ? 'default' : 'pointer',
+        pointerEvents: locked ? 'none' : 'auto',
+        tabIndex: locked ? -1 : 0,
+        dotOpacity: isActive ? 1 : 0.3,
+      };
+    });
+    const activeStudy = this.caseData[this.state.activeCase];
+    const lockOverlayOpacity = activeStudy && activeStudy.locked ? 1 : 0;
+    const progress = this.state.testiProgress;
+    const p1 = Math.max(0, Math.min(1, progress / 0.5));
+    const p2 = Math.max(0, Math.min(1, (progress - 0.5) / 0.5));
+    // Deck offsets are percentages of the card's own box (360/420 and
+    // 14/560 on the artboard), so the shuffle tracks the fluid card size.
+    const testimonials = this.testimonialData.map((t, i) => {
+      if (i === 0) {
+        return { ...t, zIndex: 10, cardOpacity: 1, cardTransform: 'translate(0%,0%) rotate(0deg) scale(1)', align: 'left', nameAlign: 'flex-start', quoteMarkAlign: 'flex-start', rowDir: 'row' };
+      }
+      if (i === 1) {
+        return { ...t, zIndex: 9, cardOpacity: p1, cardTransform: `translate(${-p1 * 85.714}%, ${p1 * 2.5}%) rotate(${-p1 * 12}deg) scale(${1 - p1 * 0.06})`, align: 'left', nameAlign: 'flex-start', quoteMarkAlign: 'flex-start', rowDir: 'row' };
+      }
+      return { ...t, zIndex: 8, cardOpacity: p2, cardTransform: `translate(${p2 * 85.714}%, ${p2 * 2.5}%) rotate(${p2 * 12}deg) scale(${1 - p2 * 0.06})`, align: 'right', nameAlign: 'flex-end', quoteMarkAlign: 'flex-end', rowDir: 'row-reverse' };
+    }).map((t) => ({ ...t, avatarBg: t.avatar ? `url(${t.avatar})` : 'none', initials: t.avatar ? '' : t.name.split(' ').map(w => w[0]).join('') }));
+    const row1 = this.getRowStyle(1);
+    const row2 = this.getRowStyle(2);
+    const rowGap = Math.round(48 * this.getScale());
+    const pathTotalHeight = row1.height + rowGap + row2.height;
+    const dot1Top = row1.height / 2 - 4.5;
+    const dot2Top = row1.height + rowGap + row2.height / 2 - 4.5;
+    return {
+      pathTotalHeight,
+      rowGap,
+      dot1Top,
+      dot2Top,
+      testimonials,
+      words: this.state.words,
+      wrapperRef: (el) => { this.wrapperEl = el; this.updateProgress(); },
+      caseWrapperRef: (el) => { this.caseWrapperEl = el; this.updateCaseProgress(); },
+      testiWrapperRef: (el) => { this.testiWrapperEl = el; this.updateTestiProgress(); },
+      studies,
+      lockOverlayOpacity,
+      copyEmail: this.copyEmail,
+      toastOpacity: this.state.toastVisible ? 1 : 0,
+      toastOffset: this.state.toastVisible ? '0px' : '10px',
+      hoverRow1On: this.hoverRow1On,
+      hoverRow2On: this.hoverRow2On,
+      hoverRowOff: this.hoverRowOff,
+      hoverRow3On: this.hoverRow3On,
+      toggleRow1: this.toggleRow1,
+      toggleRow2: this.toggleRow2,
+      toggleRow3: this.toggleRow3,
+      row1,
+      devsincDriftProps: this.devsincDriftProps,
+      repairdeskDriftProps: this.repairdeskDriftProps,
+      row2,
+      row3: this.getRowStyle(3),
+      cursorX: this.state.cursorX,
+      cursorY: this.state.cursorY,
+      cursorOpacity: this.state.hoveredRow && !this.state.quietCursor ? 1 : 0,
+      carouselIcons: this.carouselIcons,
+      realIcons: this.realIcons,
+      realIconsLoop: this.realIconsLoop,
+      iconHoverOn: this.iconHoverOn,
+      iconHoverOff: this.iconHoverOff,
+      carouselPlayState: this.state.carouselPaused ? 'paused' : 'running',
+    };
+  }
+}
+</script>
+</body>
+</html>

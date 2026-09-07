@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <style>
+    @font-face { font-family: "Hikasami"; src: local("Hikasami"); font-weight: 400 700; }
+    body { margin: 0; background: rgb(0,0,0); overflow-x: hidden; }
+    a { color: rgb(236,231,222); text-decoration: none; }
+    a:hover { color: rgb(255,255,255); }
+    .cs-fade { opacity: 0; transform: translateY(var(--cs-fade-y, 24px)); transition: opacity var(--cs-fade-dur, 0.7s) ease, transform var(--cs-fade-dur, 0.7s) ease; }
+    .cs-fade.cs-visible { opacity: 1; transform: translateY(0); }
+    @keyframes carousel-scroll { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+    .cs-img-fade { opacity: 0; filter: blur(24px); transition: opacity 0.9s ease, filter 0.9s ease; }
+    .cs-img-fade.cs-active { opacity: 1; filter: blur(0px); }
+    .cs-table { width: 100%; border-collapse: collapse; font-size: 16px; }
+    .cs-table th, .cs-table td { text-align: left; padding: 16px 20px; border-bottom: 1px solid rgba(255,255,255,0.12); }
+    .cs-table th { font-family: 'DM Mono', monospace; font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; opacity: 0.5; font-weight: 500; }
+    .cs-table td { opacity: 0.85; }
+    .cs-table tr:last-child td { border-bottom: none; }
+  </style>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&amp;display=swap" rel="stylesheet">
+  <script src="./image-slot.js"></script>
+</helmet>
+<div style="position:relative; width:1440px; max-width:100vw; margin:0 auto; display:flex; flex-direction:column; align-items:flex-start; background:rgb(0,0,0); font-family:Hikasami, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; color:rgb(236,231,222); {{ rootVars }}">
+
+  <div style="position:relative; width:100%; padding:48px 120px 0px; box-sizing:border-box;">
+    <a href="Portfolio.dc.html" style="font-family:'DM Mono', monospace; font-size:14px; letter-spacing:0.05em; opacity:0.6;">← Portfolio</a>
+  </div>
+
+  <div style="position:relative; width:100%; min-height:100vh; box-sizing:border-box; padding:220px 120px 160px; display:flex; flex-direction:column; gap:40px; justify-content:center;">
+    <span style="font-family:'DM Mono', monospace; font-size:14px; letter-spacing:0.15em; text-transform:uppercase; color:rgba(236,231,222,0.5);">Case Study — 01</span>
+    <span style="font-weight:500; font-size:104px; line-height:100%; letter-spacing:-0.02em; color:{{ accentColor }}; max-width:1100px;">ARX</span>
+    <span style="font-weight:400; font-size:24px; line-height:140%; max-width:760px; opacity:0.85;">A POS platform for the auto repair industry, designed from scratch to replace manual scheduling, billing and inventory tracking with one clear system.</span>
+    <div style="display:flex; gap:48px; padding-top:24px;">
+      <div style="display:flex; flex-direction:column; gap:6px;">
+        <span style="font-family:'DM Mono', monospace; font-size:12px; letter-spacing:0.1em; text-transform:uppercase; opacity:0.5;">Role</span>
+        <span style="font-size:18px; opacity:0.85;">Product Designer</span>
+      </div>
+      <div style="display:flex; flex-direction:column; gap:6px;">
+        <span style="font-family:'DM Mono', monospace; font-size:12px; letter-spacing:0.1em; text-transform:uppercase; opacity:0.5;">Scope</span>
+        <span style="font-size:18px; opacity:0.85;">Research · information architecture · UI · usability testing</span>
+      </div>
+      <div style="display:flex; flex-direction:column; gap:6px;">
+        <span style="font-family:'DM Mono', monospace; font-size:12px; letter-spacing:0.1em; text-transform:uppercase; opacity:0.5;">Method</span>
+        <span style="font-size:18px; opacity:0.85;">Double Diamond</span>
+      </div>
+    </div>
+  </div>
+
+  <div style="position:relative; width:100%; display:flex; flex-direction:row-reverse; gap:100px; align-items:flex-start; padding:0px 120px; box-sizing:border-box;">
+    <div style="position:sticky; top:0px; height:100vh; width:560px; flex-shrink:0; display:flex; align-items:center;">
+      <div style="position:relative; width:100%; height:520px;">
+        <div ref="{{ img0 }}" class="cs-img-fade" style="position:absolute; inset:0px;">
+          <image-slot id="cs-arx-problem-img" shape="rect" placeholder="Drop a photo that represents problem-solving" src="assets/cs-arx-persona-photo.jpeg" style="width:100%; height:100%;"></image-slot>
+        </div>
+        <div ref="{{ img1 }}" class="cs-img-fade" style="position:absolute; inset:0px;">
+          <image-slot id="cs-arx-persona" shape="rect" placeholder="Drop a persona photo" src="assets/cs-arx-persona-photo.jpeg" style="width:100%; height:100%;"></image-slot>
+        </div>
+      </div>
+    </div>
+    <div style="flex:1; display:flex; flex-direction:column;">
+
+      <div ref="{{ sec0Ref }}" style="display:flex; flex-direction:column; gap:32px; padding:calc(var(--cs-pad-lg,220)*1px) 0px calc(var(--cs-pad-lg,220)*1px);">
+        <span class="cs-fade" ref="{{ f0 }}" style="font-family:'DM Mono', monospace; font-size:14px; letter-spacing:0.1em; text-transform:uppercase; opacity:0.5;">01 — Problem Statement</span>
+        <span class="cs-fade" ref="{{ f1 }}" style="font-weight:500; font-size:40px; line-height:120%; color:rgb(255,255,255); max-width:520px;">Small repair shops still run on paper, memory, and WhatsApp updates.</span>
+        <span class="cs-fade" ref="{{ f2 }}" style="font-size:19px; line-height:160%; opacity:0.75; max-width:480px;">As jobs pile up, parts go missing, invoices get delayed, and no one — manager, mechanic, or customer — has one place to check what's actually happening.</span>
+        <div class="cs-fade" ref="{{ f3 }}" style="display:flex; flex-direction:column; gap:14px; max-width:480px;">
+          <span style="font-size:19px; line-height:150%; opacity:0.85;">— The manager wanted less chaos.</span>
+          <span style="font-size:19px; line-height:150%; opacity:0.85;">— The mechanic wanted fewer back-to-back jobs.</span>
+          <span style="font-size:19px; line-height:150%; opacity:0.85;">— The customer wanted their car yesterday.</span>
+        </div>
+        <span class="cs-fade" ref="{{ f4 }}" style="font-size:19px; line-height:160%; opacity:0.75; max-width:480px;">Research revealed that many small shop owners still run on manual or semi-digital systems, leading to inventory mismatches, billing delays and operational inefficiencies during peak hours.</span>
+      </div>
+
+      <div ref="{{ sec1Ref }}" style="display:flex; flex-direction:column; gap:28px; padding:calc(var(--cs-pad-lg,220)*1px) 0px calc(var(--cs-pad-lg,220)*1px);">
+        <span class="cs-fade" ref="{{ f5 }}" style="font-family:'DM Mono', monospace; font-size:14px; letter-spacing:0.1em; text-transform:uppercase; opacity:0.5;">02 — Accessibility &amp; Constraints</span>
+        <span class="cs-fade" ref="{{ f6 }}" style="font-weight:500; font-size:40px; line-height:120%; color:rgb(255,255,255); max-width:520px;">Designed for greasy hands and bad lighting, not a clean office.</span>
+        <span class="cs-fade" ref="{{ f7 }}" style="font-size:17px; opacity:0.6;">Real shop-floor conditions shaped every constraint on the interface.</span>
+        <div class="cs-fade" ref="{{ f8 }}" style="display:flex; flex-direction:column; gap:18px; max-width:480px; padding-top:8px;">
+          <div><span style="font-family:'DM Mono', monospace; font-size:12px; letter-spacing:0.08em; text-transform:uppercase; opacity:0.5;">Legibility</span><br><span style="font-size:18px; opacity:0.85;">Large type and high-contrast text for staff reading screens at arm's length, often without their glasses on.</span></div>
+          <div><span style="font-family:'DM Mono', monospace; font-size:12px; letter-spacing:0.08em; text-transform:uppercase; opacity:0.5;">Touch targets</span><br><span style="font-size:18px; opacity:0.85;">Buttons sized for gloved or dirty fingers on a shared tablet, not a mouse pointer.</span></div>
+          <div><span style="font-family:'DM Mono', monospace; font-size:12px; letter-spacing:0.08em; text-transform:uppercase; opacity:0.5;">Connectivity</span><br><span style="font-size:18px; opacity:0.85;">Workshops with patchy Wi-Fi meant every action needed to feel instant, with changes syncing quietly in the background.</span></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div style="position:relative; width:100%; padding:calc(var(--cs-pad-md,180)*1px) 120px; box-sizing:border-box; display:flex; flex-direction:column; gap:48px;">
+    <div style="display:flex; flex-direction:column; gap:16px; max-width:640px;">
+      <span style="font-family:'DM Mono', monospace; font-size:14px; letter-spacing:0.1em; text-transform:uppercase; opacity:0.5;">03 — Research: Competitive Analysis</span>
+      <span style="font-weight:500; font-size:36px; line-height:120%; color:rgb(255,255,255);">Existing options were either too generic, or no system at all.</span>
+    </div>
+    <table class="cs-table">
+      <tr><th>Criteria</th><th>Pen &amp; paper</th><th>Generic POS</th><th>ARX</th></tr>
+      <tr><td>Built for repair workflows</td><td>No</td><td>Rarely</td><td>Yes</td></tr>
+      <tr><td>Setup time</td><td>None</td><td>Days</td><td>Under an hour</td></tr>
+      <tr><td>Real-time inventory</td><td>No</td><td>Sometimes</td><td>Yes</td></tr>
+      <tr><td>Mobile-friendly for the floor</td><td>—</td><td>Rarely</td><td>Yes</td></tr>
+      <tr><td>Learning curve</td><td>None</td><td>Steep</td><td>Minimal</td></tr>
+    </table>
+    <div style="display:flex; flex-direction:column; gap:12px; padding-top:24px; max-width:420px;">
+      <span style="font-family:'DM Mono', monospace; font-size:12px; letter-spacing:0.08em; text-transform:uppercase; opacity:0.5;">User Survey</span>
+      <image-slot id="cs-arx-research-photo" shape="rect" src="assets/cs-arx-research-photo.jpeg" placeholder="Field research photo" style="width:100%; height:220px;"></image-slot>
+      <span style="font-size:14px; opacity:0.5;">On the ground with a workshop owner, mapping how repair jobs actually move through his shop.</span>
+    </div>
+  </div>
+
+  <div style="position: relative; width: 100%; padding: 0px 120px 180px; box-sizing: border-box; display: flex; flex-direction: column; gap: 56px; padding-right: 0px">
+    <div style="display:flex; flex-direction:column; gap:16px; max-width:640px;">
+      <span style="font-family:'DM Mono', monospace; font-size:14px; letter-spacing:0.1em; text-transform:uppercase; opacity:0.5;">04 — User Flow &amp; Information Architecture</span>
+      <span style="font-weight:500; font-size:36px; line-height:120%; color:rgb(255,255,255);">One flow, from job card to closed invoice.</span>
+    </div>
+    <div style="margin-left:0px; width:100%; overflow:hidden;">
+      <img src="assets/user-flow.svg" alt="ARX user flow" style="width: 100%; display: block; height: 400px; position: static; margin-left: 0px; margin-right: 0px; object-fit: fill">
+    </div>
+  </div>
+
+  
+
+  <div style="position:relative; width:100%; padding:0px 120px 180px; box-sizing:border-box; display:flex; flex-direction:column; gap:48px;">
+    <div style="display:flex; flex-direction:column; gap:16px; max-width:640px;">
+      <span style="font-family:'DM Mono', monospace; font-size:14px; letter-spacing:0.1em; text-transform:uppercase; opacity:0.5;">05 — Wireframes</span>
+      <span style="font-weight:500; font-size:36px; line-height:120%; color:rgb(255,255,255);">Structure first, style later.</span>
+      <span style="font-size:18px; line-height:150%; opacity:0.7;">Every screen started in low-fidelity grayscale so layout and hierarchy could be argued over before a single color was picked.</span>
+    </div>
+    <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:24px;">
+      <image-slot id="cs-arx-wf-1" shape="rect" placeholder="Drop dashboard wireframe" src="assets/cs-arx-wireframe-1.webp" style="width:100%; height:260px;"></image-slot>
+      <image-slot id="cs-arx-wf-2" shape="rect" placeholder="Drop job creation wireframe" src="assets/cs-arx-wireframe-2.webp" style="width:100%; height:260px;"></image-slot>
+      <image-slot id="cs-arx-wf-3" shape="rect" placeholder="Drop invoicing wireframe" src="assets/cs-arx-wireframe-3.webp" style="width:100%; height:260px;"></image-slot>
+    </div>
+  </div>
+
+  <div style="position:relative; width:100%; padding:0px 120px 180px; box-sizing:border-box; display:flex; gap:80px; align-items:center;">
+    <div style="flex:1; display:flex; flex-direction:column; gap:32px;">
+      <div style="display:flex; flex-direction:column; gap:16px; max-width:640px;">
+        <span style="font-family:'DM Mono', monospace; font-size:14px; letter-spacing:0.1em; text-transform:uppercase; opacity:0.5;">06 — Results</span>
+        <span style="font-weight:500; font-size:36px; line-height:120%; color:rgb(255,255,255);">8 participants. 6 core tasks. One question: does this actually help?</span>
+        <span style="font-size:18px; line-height:150%; opacity:0.7; max-width:560px;">Moderated usability sessions with 5 workshop owners/managers and 3 mechanics  creating a repair job, assigning a mechanic, tracking status, generating an invoice, checking inventory, and sending updates.</span>
+      </div>
+      <div style="display:flex; gap:64px; padding-top:8px; flex-wrap:wrap;">
+        <div style="display:flex; flex-direction:column; gap:6px;"><span style="font-weight:500; font-size:40px; color:{{ accentColor }};">87%</span><span style="font-size:15px; opacity:0.6;">Completed billing unassisted</span></div>
+        <div style="display:flex; flex-direction:column; gap:6px;"><span style="font-weight:500; font-size:40px; color:{{ accentColor }};">4.5→2.1m</span><span style="font-size:15px; opacity:0.6;">Avg. task time</span></div>
+        <div style="display:flex; flex-direction:column; gap:6px;"></div>
+      </div>
+    </div>
+    <image-slot id="cs-arx-testing-photo" shape="rect" placeholder="Drop a testing photo" style="width:340px; height:340px; flex-shrink:0;"></image-slot>
+  </div>
+
+  <div style="position:relative; width:100%; padding:0px 120px 100px; box-sizing:border-box; display:flex; flex-direction:column; gap:36px;">
+    <span style="font-family:'DM Mono', monospace; font-size:14px; letter-spacing:0.1em; text-transform:uppercase; opacity:0.5;">Style Guide</span>
+    <span style="font-weight:700; font-size:36px; letter-spacing:-0.02em; color:#fff;">ARX Design System</span>
+    <div style="display:flex; gap:56px;">
+      <div style="display:flex; flex-direction:column; gap:12px; flex:1;">
+        <span style="font-family:'DM Mono', monospace; font-size:11px; letter-spacing:0.08em; text-transform:uppercase; opacity:0.5;">Color</span>
+        <div style="display:flex; gap:8px;">
+          <div style="width:44px; height:44px; border-radius:6px; background:#FC7824;" title="Primary #FC7824"></div>
+          <div style="width:44px; height:44px; border-radius:6px; background:#0B1220; border:1px solid rgba(255,255,255,0.15);" title="Navy #0B1220"></div>
+          <div style="width:44px; height:44px; border-radius:6px; background:#F9FAFB;" title="Surface #F9FAFB"></div>
+          <div style="width:44px; height:44px; border-radius:6px; background:#22A55E;" title="Success #22A55E"></div>
+          <div style="width:44px; height:44px; border-radius:6px; background:#F59E0B;" title="Warning #F59E0B"></div>
+          <div style="width:44px; height:44px; border-radius:6px; background:#EF4444;" title="Error #EF4444"></div>
+        </div>
+        <span style="font-family:'DM Mono', monospace; font-size:12px; opacity:0.4;">Orange · Navy · Surface · Success · Warning · Error</span>
+      </div>
+      <div style="display:flex; flex-direction:column; gap:12px; flex:1;">
+        <span style="font-family:'DM Mono', monospace; font-size:11px; letter-spacing:0.08em; text-transform:uppercase; opacity:0.5;">Type — Inter</span>
+        <div style="display:flex; align-items:baseline; gap:14px;"><span style="font-weight:800; font-size:26px;">Aa</span><span style="font-size:13px; opacity:0.5;">Display / H1 — 24–32px Bold</span></div>
+        <div style="display:flex; align-items:baseline; gap:14px;"><span style="font-weight:500; font-size:16px;">Aa</span><span style="font-size:13px; opacity:0.5;">Body — 16px Medium</span></div>
+        <div style="display:flex; align-items:baseline; gap:14px;"><span style="font-weight:600; font-size:12px; letter-spacing:0.06em; text-transform:uppercase;">Aa</span><span style="font-size:13px; opacity:0.5;">Label — 12px Semibold, uppercase</span></div>
+      </div>
+      <div style="display:flex; flex-direction:column; gap:12px; flex:1;">
+        <span style="font-family:'DM Mono', monospace; font-size:11px; letter-spacing:0.08em; text-transform:uppercase; opacity:0.5;">Buttons &amp; Badges</span>
+        <div style="display:flex; gap:10px; align-items:center; flex-wrap:wrap;">
+          <div style="background:#FC7824; color:#fff; font-weight:600; font-size:13px; padding:9px 16px; border-radius:7px;">Primary</div>
+          <div style="border:1px solid rgba(255,255,255,0.25); color:#ECECEC; font-weight:600; font-size:13px; padding:9px 16px; border-radius:7px;">Secondary</div>
+        </div>
+        <div style="display:flex; gap:8px; flex-wrap:wrap; padding-top:4px;">
+          <span style="background:rgba(252,120,36,0.12); color:#FC7824; font-weight:600; font-size:11px; padding:5px 10px; border-radius:16px;">IN PROGRESS</span>
+          <span style="background:rgba(34,165,94,0.12); color:#22A55E; font-weight:600; font-size:11px; padding:5px 10px; border-radius:16px;">PAID</span>
+          <span style="background:rgba(239,68,68,0.12); color:#EF4444; font-weight:600; font-size:11px; padding:5px 10px; border-radius:16px;">OVERDUE</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div style="position:relative; width:100%; padding:0px 120px 160px; box-sizing:border-box; display:flex; flex-direction:column; gap:24px;">
+    <div style="display:flex; flex-direction:column; gap:16px; max-width:640px;">
+      <span style="font-family:'DM Mono', monospace; font-size:14px; letter-spacing:0.1em; text-transform:uppercase; opacity:0.5;">07 — Final Screens</span>
+      <span style="font-weight:500; font-size:48px; line-height:115%; color:rgb(255,255,255);">Final Screens</span>
+    </div>
+  </div>
+
+  <div style="position:relative; width:100%; padding:0px 0px 200px; box-sizing:border-box; overflow:hidden;">
+    <div style="-webkit-mask-image:linear-gradient(to right, transparent, black 6%, black 94%, transparent); mask-image:linear-gradient(to right, transparent, black 6%, black 94%, transparent);">
+      <div style="display:flex; flex-direction:row; gap:32px; width:max-content; animation:carousel-scroll 32s linear infinite;">
+        <sc-for list="{{ finalScreens }}" as="sc" hint-placeholder-count="6">
+          <div style="display:flex; flex-direction:column; gap:16px; width:640px; flex-shrink:0;">
+            <div role="img" aria-label="{{ sc.alt }}" style="width:640px; height:420px; border-radius:10px; background-image:{{ sc.bgUrl }}; background-size:cover; background-position:center;"></div>
+            <span style="font-size:15px; opacity:0.55;">{{ sc.caption }}</span>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+  </div>
+
+  <div style="position: relative; width: 100%; padding: 0px 120px 180px; box-sizing: border-box; display: flex; flex-direction: column; gap: 24px; padding-right: 0px; padding-left: 0px">
+    <img src="assets/cs-arx-settings-v3.png" alt="ARX settings screens" style="width:100%; border-radius:12px;">
+    <span style="font-size:15px; opacity:0.55;">Settings — workshop profile, billing, notifications and security, configurable per team.</span>
+  </div>
+
+  <div style="position:relative; width:100%; box-sizing:border-box; padding:64px 120px 32px; display:flex; flex-direction:column; gap:32px; border-top:1px solid rgba(255,255,255,0.15);">
+    <a href="Portfolio.dc.html" style="font-family:'DM Mono', monospace; font-size:14px; letter-spacing:0.05em; opacity:0.6;">← Back to portfolio</a>
+    <div style="display:flex; justify-content:space-between; align-items:center;">
+      
+      
+    </div>
+  </div>
+
+  <div style="position:relative; width:100%; height:760px; overflow:hidden; background:rgb(0,0,0); box-sizing:border-box; border-top:1px solid rgba(255,255,255,0.15);">
+    <div style="position:absolute; left:120px; top:231px; width:1199px; height:245px; display:flex; flex-direction:row; gap:326px; align-items:flex-start;">
+      <div style="position:relative; width:139px; height:245px; display:flex; flex-direction:column; gap:80px; align-items:flex-start; flex-shrink:0;">
+        <span style="font-weight:500; font-size:20px; white-space:nowrap; line-height:100%; letter-spacing:-0.020em; color:rgb(255,255,255); text-transform:capitalize;">Jump to</span>
+        <div style="width:112px; display:flex; flex-direction:column; gap:8px; align-items:flex-start;">
+          <a href="Portfolio.dc.html#work" style="font-weight:500; font-size:18px; line-height:100%; text-transform:capitalize; opacity:0.8;">Work</a>
+          <a href="Portfolio.dc.html#case-studies" style="font-weight:500; font-size:18px; line-height:100%; text-transform:capitalize; opacity:0.8;">Case Studies</a>
+          <a href="Portfolio.dc.html#experience" style="font-weight:500; font-size:18px; line-height:100%; text-transform:capitalize; opacity:0.8;">Experience</a>
+          <a href="Portfolio.dc.html#profile" style="font-weight:500; font-size:18px; line-height:100%; text-transform:capitalize; opacity:0.8;">Profile</a>
+        </div>
+      </div>
+      <div style="position:relative; width:131px; height:173px; display:flex; flex-direction:column; gap:80px; align-items:flex-start; flex-shrink:0;">
+        <span style="font-weight:500; font-size:20px; white-space:nowrap; line-height:100%; letter-spacing:-0.020em; color:rgb(255,255,255); text-transform:capitalize;">Phone</span>
+        <span style="opacity:0.8; font-weight:500; font-size:18px; line-height:150%; color:rgb(255,255,255); text-transform:uppercase; white-space:pre-line; width:200px;">+92 3138626577
++92 3304868262</span>
+      </div>
+      <div style="position:relative; width:277px; height:149px; display:flex; flex-direction:column; gap:80px; align-items:flex-start; flex-shrink:0;">
+        <span style="font-weight:500; font-size:20px; white-space:nowrap; line-height:100%; letter-spacing:-0.020em; color:rgb(255,255,255); text-transform:capitalize;">EMAIL</span>
+        <div style="display:flex; flex-direction:row; gap:8px; align-items:center; cursor:pointer;" onClick="{{ copyEmail }}">
+          <span style="opacity:0.8; font-weight:500; font-size:18px; white-space:nowrap; line-height:100%; color:rgb(255,255,255); text-transform:capitalize;">Uxabdullah089@gmail.com</span>
+          <img src="assets/copy-icon.svg" alt="Copy" style="width:24px; height:24px;">
+        </div>
+      </div>
+    </div>
+    <span style="position:absolute; left:120px; top:calc(100% - 260px); font-weight:500; font-size:244px; white-space:nowrap; line-height:100%; letter-spacing:-0.020em; color:rgb(255,255,255); opacity:0.2; text-transform:uppercase;">Abdullah</span>
+  </div>
+
+  <div style="position:fixed; right:40px; bottom:40px; width:48px; height:48px; border-radius:50%; border:1px solid rgba(255,255,255,0.25); display:flex; align-items:center; justify-content:center; opacity:{{ backToTopOpacity }}; pointer-events:{{ backToTopPointer }}; transition:opacity 0.3s ease; cursor:pointer; z-index:45; background:rgba(0,0,0,0.6); backdrop-filter:blur(6px);" onClick="{{ scrollToTop }}">
+    <span style="font-size:20px; color:rgb(255,255,255); line-height:1;">↑</span>
+  </div>
+
+  <div style="position:fixed; left:50%; bottom:32px; transform:translate(-50%, {{ toastOffset }}); opacity:{{ toastOpacity }}; transition:opacity 0.3s ease, transform 0.3s ease; z-index:50; pointer-events:none;">
+    <img src="assets/copied-toast.svg" alt="Email copied!" style="width:170px; height:38px;">
+  </div>
+
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{
+  &quot;accentColor&quot;: {&quot;editor&quot;: &quot;color&quot;, &quot;default&quot;: &quot;#FC7824&quot;, &quot;options&quot;: [&quot;#FC7824&quot;, &quot;#22D3EE&quot;, &quot;#EC4899&quot;, &quot;#ECE7DE&quot;], &quot;tsType&quot;: &quot;string&quot;, &quot;section&quot;: &quot;Tone&quot;},
+  &quot;motionStyle&quot;: {&quot;editor&quot;: &quot;enum&quot;, &quot;default&quot;: &quot;calm&quot;, &quot;options&quot;: [&quot;calm&quot;, &quot;energetic&quot;], &quot;tsType&quot;: &quot;string&quot;, &quot;section&quot;: &quot;Motion&quot;},
+  &quot;layoutDensity&quot;: {&quot;editor&quot;: &quot;enum&quot;, &quot;default&quot;: &quot;airy&quot;, &quot;options&quot;: [&quot;airy&quot;, &quot;compact&quot;], &quot;tsType&quot;: &quot;string&quot;, &quot;section&quot;: &quot;Rhythm&quot;}
+}">
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.refs_ = [];
+    this.state = { activeSection: 0, toastVisible: false, nearBottom: false };
+    this.iaNodes = ['Sales', 'Inventory', 'Customers', 'Reports', 'AI Insights', 'Settings'];
+    const steps = ['Create Job', 'Assign Mechanic', 'Track Status', 'Generate Invoice', 'Notify Customer'];
+    this.flowSteps = steps.map((s, i) => Object.assign(new String(s), { notLast: i < steps.length - 1 }));
+    const screens = [
+      { src: 'assets/cs-arx-dashboard-v2.png', alt: 'ARX Dashboard', caption: 'Dashboard' },
+      { src: 'assets/cs-arx-analytics-v3.png', alt: 'ARX Analytics', caption: 'Analytics' },
+      { src: 'assets/cs-arx-invoicing-v3.png', alt: 'ARX Invoicing', caption: 'Invoicing' },
+    ];
+    this.finalScreens = [...screens, ...screens].map((s) => ({ ...s, bgUrl: `url(${s.src})` }));
+  }
+
+  regFade = (i) => (el) => { this.refs_[i] = el; };
+
+  copyEmail = () => {
+    navigator.clipboard.writeText('Uxabdullah089@gmail.com').catch(() => {});
+    this.setState({ toastVisible: true });
+    clearTimeout(this.toastTimer);
+    this.toastTimer = setTimeout(() => this.setState({ toastVisible: false }), 2000);
+  }
+
+  scrollToTop = () => window.scrollTo({ top: 0, behavior: 'smooth' });
+
+  componentDidMount() {
+    this.io = new IntersectionObserver((entries) => {
+      entries.forEach((e) => { if (e.isIntersecting) e.target.classList.add('cs-visible'); });
+    }, { threshold: 0.2 });
+    this.refs_.forEach((el) => { if (el) this.io.observe(el); });
+
+    this.sectionEls = [this.sec0, this.sec1].filter(Boolean);
+    this.sectionIo = new IntersectionObserver((entries) => {
+      entries.forEach((e) => {
+        if (e.isIntersecting) {
+          const idx = this.sectionEls.indexOf(e.target);
+          if (idx !== -1) this.setState({ activeSection: idx });
+        }
+      });
+    }, { threshold: 0.5 });
+    this.sectionEls.forEach((el) => this.sectionIo.observe(el));
+    this.componentDidUpdate();
+
+    this.onScroll = () => {
+      const nearBottom = window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 80;
+      if (nearBottom !== this.state.nearBottom) this.setState({ nearBottom });
+    };
+    window.addEventListener('scroll', this.onScroll, { passive: true });
+  }
+
+  componentWillUnmount() {
+    if (this.io) this.io.disconnect();
+    if (this.sectionIo) this.sectionIo.disconnect();
+    window.removeEventListener('scroll', this.onScroll);
+  }
+
+  componentDidUpdate() {
+    [this.img0, this.img1].forEach((el, i) => {
+      if (!el) return;
+      el.classList.toggle('cs-active', this.state.activeSection === i);
+    });
+  }
+
+  renderVals() {
+    const accentColor = this.props.accentColor ?? '#FC7824';
+    const motionStyle = this.props.motionStyle ?? 'calm';
+    const layoutDensity = this.props.layoutDensity ?? 'airy';
+    const fadeY = motionStyle === 'energetic' ? '48px' : '20px';
+    const fadeDur = motionStyle === 'energetic' ? '0.45s' : '0.9s';
+    const padLg = layoutDensity === 'compact' ? 130 : 220;
+    const padMd = layoutDensity === 'compact' ? 90 : 180;
+    const rootVars = `--cs-fade-y:${fadeY}; --cs-fade-dur:${fadeDur}; --cs-pad-lg:${padLg}; --cs-pad-md:${padMd};`;
+    const dots = [0, 1].map((i) => ({ opacity: this.state.activeSection === i ? 1 : 0.25 }));
+    return {
+      rootVars,
+      accentColor,
+      dots,
+      iaNodes: this.iaNodes,
+      flowSteps: this.flowSteps,
+      finalScreens: this.finalScreens,
+      sec0Ref: (el) => { this.sec0 = el; },
+      sec1Ref: (el) => { this.sec1 = el; },
+      img0: (el) => { this.img0 = el; },
+      img1: (el) => { this.img1 = el; },
+      copyEmail: this.copyEmail,
+      scrollToTop: this.scrollToTop,
+      toastOpacity: this.state.toastVisible ? 1 : 0,
+      toastOffset: this.state.toastVisible ? '0px' : '10px',
+      backToTopOpacity: this.state.nearBottom ? 1 : 0,
+      backToTopPointer: this.state.nearBottom ? 'auto' : 'none',
+
+      f0: this.regFade(0), f1: this.regFade(1), f2: this.regFade(2), f3: this.regFade(3), f4: this.regFade(4),
+      f5: this.regFade(5), f6: this.regFade(6), f7: this.regFade(7), f8: this.regFade(8),
+    };
+  }
+}
+
+</script>
+</body>
+</html>

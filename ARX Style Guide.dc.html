@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    body { margin: 0; background: rgb(0,0,0); }
+  </style>
+</helmet>
+<div style="width:1440px; margin:0 auto; background:rgb(0,0,0); font-family:'Inter', sans-serif; color:#ECECEC; padding:100px 120px; box-sizing:border-box; display:flex; flex-direction:column; gap:36px;">
+
+  <div style="display:flex; flex-direction:column; gap:10px;">
+    <span style="font-family:'DM Mono', monospace; font-size:14px; letter-spacing:0.1em; text-transform:uppercase; opacity:0.5;">Style Guide</span>
+    <span style="font-weight:700; font-size:36px; letter-spacing:-0.02em; color:#fff;">ARX Design System</span>
+  </div>
+
+  <div style="display:flex; gap:56px;">
+
+    <div style="display:flex; flex-direction:column; gap:12px; flex:1;">
+      <span style="font-family:'DM Mono', monospace; font-size:11px; letter-spacing:0.08em; text-transform:uppercase; opacity:0.5;">Color</span>
+      <div style="display:flex; gap:8px;">
+        <div style="width:44px; height:44px; border-radius:6px; background:#FC7824;" title="Primary #FC7824"></div>
+        <div style="width:44px; height:44px; border-radius:6px; background:#0B1220; border:1px solid rgba(255,255,255,0.15);" title="Navy #0B1220"></div>
+        <div style="width:44px; height:44px; border-radius:6px; background:#F9FAFB;" title="Surface #F9FAFB"></div>
+        <div style="width:44px; height:44px; border-radius:6px; background:#22A55E;" title="Success #22A55E"></div>
+        <div style="width:44px; height:44px; border-radius:6px; background:#F59E0B;" title="Warning #F59E0B"></div>
+        <div style="width:44px; height:44px; border-radius:6px; background:#EF4444;" title="Error #EF4444"></div>
+      </div>
+      <span style="font-family:'DM Mono', monospace; font-size:12px; opacity:0.4;">Orange · Navy · Surface · Success · Warning · Error</span>
+    </div>
+
+    <div style="display:flex; flex-direction:column; gap:12px; flex:1;">
+      <span style="font-family:'DM Mono', monospace; font-size:11px; letter-spacing:0.08em; text-transform:uppercase; opacity:0.5;">Type — Inter</span>
+      <div style="display:flex; align-items:baseline; gap:14px;"><span style="font-weight:800; font-size:26px;">Aa</span><span style="font-size:13px; opacity:0.5;">Display / H1 — 24–32px Bold</span></div>
+      <div style="display:flex; align-items:baseline; gap:14px;"><span style="font-weight:500; font-size:16px;">Aa</span><span style="font-size:13px; opacity:0.5;">Body — 16px Medium</span></div>
+      <div style="display:flex; align-items:baseline; gap:14px;"><span style="font-weight:600; font-size:12px; letter-spacing:0.06em; text-transform:uppercase;">Aa</span><span style="font-size:13px; opacity:0.5;">Label — 12px Semibold, uppercase</span></div>
+    </div>
+
+    <div style="display:flex; flex-direction:column; gap:12px; flex:1;">
+      <span style="font-family:'DM Mono', monospace; font-size:11px; letter-spacing:0.08em; text-transform:uppercase; opacity:0.5;">Buttons &amp; Badges</span>
+      <div style="display:flex; gap:10px; align-items:center; flex-wrap:wrap;">
+        <div style="background:#FC7824; color:#fff; font-weight:600; font-size:13px; padding:9px 16px; border-radius:7px;">Primary</div>
+        <div style="border:1px solid rgba(255,255,255,0.25); color:#ECECEC; font-weight:600; font-size:13px; padding:9px 16px; border-radius:7px;">Secondary</div>
+      </div>
+      <div style="display:flex; gap:8px; flex-wrap:wrap; padding-top:4px;">
+        <span style="background:rgba(252,120,36,0.12); color:#FC7824; font-weight:600; font-size:11px; padding:5px 10px; border-radius:16px;">IN PROGRESS</span>
+        <span style="background:rgba(34,165,94,0.12); color:#22A55E; font-weight:600; font-size:11px; padding:5px 10px; border-radius:16px;">PAID</span>
+        <span style="background:rgba(239,68,68,0.12); color:#EF4444; font-weight:600; font-size:11px; padding:5px 10px; border-radius:16px;">OVERDUE</span>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+</x-dc>
+</body>
+</html>
